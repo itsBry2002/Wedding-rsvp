@@ -100,6 +100,41 @@ margin:4px 0;
 font-size:15px;
 }
 
+.attendance-buttons{
+display:flex;
+justify-content:space-between;
+gap:10px;
+margin-top:5px;
+}
+
+.attendance-btn{
+flex:1;
+padding:10px;
+font-size:15px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+transition:0.2s;
+color:white;
+}
+
+.attendance-btn[data-value="Yes"]{
+background:#28a745; /* green */
+}
+
+.attendance-btn[data-value="No"]{
+background:#dc3545; /* red */
+}
+
+.attendance-btn:hover{
+opacity:0.85;
+}
+
+.attendance-btn.selected{
+box-shadow:0 0 10px rgba(0,0,0,0.3);
+transform:scale(1.05);
+}
+
 
 </style>
 
@@ -141,15 +176,12 @@ Open in Google Maps
 
 <p class="question">Will you attend?</p>
 
-<label class="radio-option">
-<input type="radio" name="attendance" value="Yes" required>
-Yes, I will attend 🎉
-</label>
+<div class="attendance-buttons">
+  <button type="button" class="attendance-btn" data-value="Yes">✅ Yes, I will attend</button>
+  <button type="button" class="attendance-btn" data-value="No">❌ Sorry, I cannot attend</button>
+</div>
 
-<label class="radio-option">
-<input type="radio" name="attendance" value="No">
-Sorry, I cannot attend
-</label>
+<input type="hidden" id="attendance" required>
 
 </div>
 
@@ -219,8 +251,20 @@ document.getElementById("rsvpForm").addEventListener("submit",function(e){
 e.preventDefault();
 
 var name = document.getElementById("name").value;
-var attendance =
-document.querySelector('input[name="attendance"]:checked').value;
+// Handle clickable attendance buttons
+const buttons = document.querySelectorAll(".attendance-btn");
+const hiddenInput = document.getElementById("attendance");
+
+buttons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    // Remove selected from all
+    buttons.forEach(b => b.classList.remove("selected"));
+    // Mark clicked button as selected
+    btn.classList.add("selected");
+    // Save value to hidden input for form submission
+    hiddenInput.value = btn.dataset.value;
+  });
+});
 var guests = document.getElementById("guests").value;
 
 fetch("https://script.google.com/macros/s/AKfycbwHj8cpMDfC8k7GTnXMf4I5Cwxk-9ecQ-iqTFc_CKBd1Dw4_Cu8g_n6P3NBKURf7hJo8Q/exec",{
