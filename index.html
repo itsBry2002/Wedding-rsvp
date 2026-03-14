@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+‎<html>
+‎<head>
+‎
+‎<title>Bryan's Birthday RSVP</title>
+‎
+‎<style>
+‎
+‎body{
+‎font-family: Arial;
+‎background:#f2f2f2;
+‎text-align:center;
+‎padding:40px;
+‎}
+‎
+‎.container{
+‎background:white;
+‎max-width:500px;
+‎margin:auto;
+‎padding:30px;
+‎border-radius:10px;
+‎box-shadow:0 0 10px rgba(0,0,0,0.1);
+‎}
+‎
+‎input,select{
+‎width:90%;
+‎padding:10px;
+‎margin:10px;
+‎}
+‎
+‎button{
+‎background:#ff4d6d;
+‎color:white;
+‎border:none;
+‎padding:12px;
+‎width:95%;
+‎font-size:16px;
+‎cursor:pointer;
+‎}
+‎
+‎button:hover{
+‎background:#ff1f4b;
+‎}
+‎
+‎</style>
+‎
+‎</head>
+‎
+‎<body>
+‎
+‎<div class="container">
+‎
+‎<h2>🎉 Bryan's Birthday Party 🎂</h2>
+‎
+‎<p id="countdown"></p>
+‎
+‎<p>Date: May 10, 2026</p>
+‎
+‎<button onclick="openMap()">📍 Open Event Location</button>
+‎
+‎<hr>
+‎
+‎<h3>RSVP Confirmation</h3>
+‎
+‎<form id="rsvpForm">
+‎
+‎<input id="name" type="text" placeholder="Your Name" required>
+‎
+‎<select id="attendance" required>
+‎<option value="">Will you attend?</option>
+‎<option>Yes, I will attend</option>
+‎<option>Sorry, I cannot attend</option>
+‎</select>
+‎
+‎<input id="guests" type="number" placeholder="Number of guests" min="1" max="5">
+‎
+‎<button type="submit">Confirm RSVP</button>
+‎
+‎</form>
+‎
+‎<p id="message"></p>
+‎
+‎<hr>
+‎
+‎<h3>Upload Party Photos</h3>
+‎
+‎<p>You can upload photos after the party</p>
+‎
+‎<input type="file" multiple>
+‎
+‎</div>
+‎
+‎<script>
+‎
+‎/* COUNTDOWN TIMER */
+‎
+‎var eventDate = new Date("May 10, 2026 17:00:00").getTime();
+‎
+‎var timer = setInterval(function(){
+‎
+‎var now = new Date().getTime();
+‎
+‎var distance = eventDate - now;
+‎
+‎var days = Math.floor(distance / (1000*60*60*24));
+‎
+‎var hours = Math.floor((distance % (1000*60*60*24))/(1000*60*60));
+‎
+‎document.getElementById("countdown").innerHTML =
+‎"🎉 Party starts in: "+days+" days "+hours+" hours";
+‎
+‎},1000);
+‎
+‎/* GOOGLE MAP BUTTON */
+‎
+‎function openMap(){
+‎
+‎window.open("https://maps.google.com?q=YOUR+LOCATION");
+‎
+‎}
+‎
+‎/* RSVP FORM */
+‎
+‎document.getElementById("rsvpForm").addEventListener("submit",function(e){
+‎
+‎e.preventDefault();
+‎
+‎var name = document.getElementById("name").value;
+‎var attendance = document.getElementById("attendance").value;
+‎var guests = document.getElementById("guests").value;
+‎
+‎/* SEND DATA TO GOOGLE SHEETS */
+‎
+‎fetch("YOUR_SCRIPT_URL",{
+‎
+‎method:"POST",
+‎
+‎body:JSON.stringify({
+‎
+‎name:name,
+‎
+‎attendance:attendance,
+‎
+‎guests:guests
+‎
+‎})
+‎
+‎});
+‎
+‎document.getElementById("message").innerHTML =
+‎"✅ Thank you! Your RSVP has been recorded.";
+‎
+‎});
+‎
+‎</script>
+‎
+‎</body>
+‎
+‎</html>
