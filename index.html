@@ -84,6 +84,23 @@ color:white;
 padding:20px;
 }
 
+.attendance-group{
+text-align:left;
+margin-top:10px;
+}
+
+.question{
+margin-bottom:8px;
+font-weight:bold;
+}
+
+.radio-option{
+display:block;
+margin:4px 0;
+font-size:15px;
+}
+
+
 </style>
 
 </head>
@@ -114,25 +131,27 @@ Open in Google Maps
 
 <div class="container">
 
-<h2 class="section-title">📝 Confirmation</h2>
+<h2 class="section-title">📝 Kindly confirm your attendance:</h2>
 
 <form id="rsvpForm">
 
 <input id="name" type="text" placeholder="Your Name" required>
 
-<p><strong>Will you attend?</strong></p>
+<div class="attendance-group">
 
-<label>
+<p class="question">Will you attend?</p>
+
+<label class="radio-option">
 <input type="radio" name="attendance" value="Yes" required>
 Yes, I will attend 🎉
 </label>
 
-<br><br>
-
-<label>
+<label class="radio-option">
 <input type="radio" name="attendance" value="No">
 Sorry, I cannot attend
 </label>
+
+</div>
 
 <input id="guests" type="number" placeholder="Number of guests" min="1" max="5">
 
