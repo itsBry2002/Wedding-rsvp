@@ -1,87 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 <title>Birthday RSVP</title>
-
 <meta name="viewport" content="width=device-width, initial-scale=0.9">
 
 <style>
-
-body{
-font-family:Arial;
-background:#f2f2f2;
-margin:0;
-text-align:center;
-}
-
-.header{
-background:#ff4081;
-color:white;
-padding:30px;
-}
-
-.container{
-max-width:460px;
-margin:20px auto;
-background:white;
-padding:25px;
-border-radius:10px;
-box-shadow:0 5px 15px rgba(0,0,0,0.2);
-}
-
-input{
-width:100%;
-padding:10px;
-margin:10px 0;
-border-radius:6px;
-border:1px solid #ccc;
-}
-
-button{
-padding:10px 15px;
-border:none;
-border-radius:6px;
-cursor:pointer;
-font-size:16px;
-}
-
-.attendance-btn{
-width:48%;
-margin:5px;
-color:white;
-opacity:0.8;
-}
-
-.attendance-btn[data-value="Yes"]{
-background:#28a745;
-}
-
-.attendance-btn[data-value="No"]{
-background:#dc3545;
-}
-
-.attendance-btn.selected{
-opacity:1;
-transform:scale(1.05);
-box-shadow:0 0 10px rgba(0,0,0,0.4);
-}
-
-#guestCounter{
-font-size:20px;
-font-weight:bold;
-margin-top:10px;
-color:#ff4081;
-}
-
-.map-btn{
-background:#007bff;
-color:white;
-margin-top:10px;
-}
-
+body{font-family:Arial;background:#f2f2f2;margin:0;text-align:center;}
+.header{background:#ff4081;color:white;padding:30px;}
+.container{max-width:460px;margin:20px auto;background:white;padding:25px;border-radius:10px;box-shadow:0 5px 15px rgba(0,0,0,0.2);}
+input, select{width:100%;padding:10px;margin:10px 0;border-radius:6px;border:1px solid #ccc;}
+button{padding:10px 15px;border:none;border-radius:6px;cursor:pointer;font-size:16px;}
+.attendance-btn{width:48%;margin:5px;color:white;opacity:0.8;}
+.attendance-btn[data-value="Yes"]{background:#28a745;}
+.attendance-btn[data-value="No"]{background:#dc3545;}
+.attendance-btn.selected{opacity:1;transform:scale(1.05);box-shadow:0 0 10px rgba(0,0,0,0.4);}
+#guestCounter{font-size:20px;font-weight:bold;margin-top:10px;color:#ff4081;}
+.map-btn{background:#007bff;color:white;margin-top:10px;}
+.upload-btn{background:#6f42c1;color:white;margin-top:10px;}
 </style>
-
 </head>
 
 <body>
@@ -92,149 +28,109 @@ margin-top:10px;
 </div>
 
 <div class="container">
-
 <h2>⏳ Countdown</h2>
 <p id="countdown"></p>
-
 </div>
 
 <div class="container">
-
 <h2>📍 Event Location</h2>
-
 <a href="YOUR_GOOGLE_MAP_LINK" target="_blank">
 <button class="map-btn">Open Google Maps</button>
 </a>
-
 </div>
 
 <div class="container">
-
 <h2>RSVP</h2>
-
 <form id="rsvpForm">
 
 <input type="text" name="name" placeholder="Your Name" required>
 
 <p>Will you attend?</p>
-
 <button type="button" class="attendance-btn" data-value="Yes">✅ Yes</button>
 <button type="button" class="attendance-btn" data-value="No">❌ No</button>
-
 <input type="hidden" name="attendance" id="attendance" required>
 
+<p>Number of Guests (+1 to +5)</p>
+<select name="numGuests" id="numGuests" required>
+<option value="" disabled selected>Select number</option>
+<option value="0">0</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+</select>
+
 <br><br>
-
 <button type="submit">Confirm RSVP</button>
-
 </form>
-
 </div>
 
 <div class="container">
-
 <h2>🎉 Guest Confirmations</h2>
-
 <p id="guestCounter">Loading...</p>
+</div>
 
+<div class="container">
+<h2>📷 Upload Party Photos</h2>
+<p>After the party, click below to share photos:</p>
+<a href="YOUR_GOOGLE_FORM_URL" target="_blank">
+<button class="upload-btn">Upload Photos</button>
+</a>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
 <script>
 
 /* ---------- ATTENDANCE BUTTON ---------- */
-
 const buttons=document.querySelectorAll(".attendance-btn");
 const hiddenInput=document.getElementById("attendance");
-
 buttons.forEach(btn=>{
 btn.addEventListener("click",()=>{
-
 buttons.forEach(b=>b.classList.remove("selected"));
 btn.classList.add("selected");
-
 hiddenInput.value=btn.dataset.value;
-
 });
 });
-
 
 /* ---------- RSVP SUBMIT ---------- */
-
-const scriptURL="https://script.google.com/macros/s/AKfycbyHjf3kMY0rCrcwDq1xy8NRuGKFHieBXKlbZhrIrg_Po7JiDVtmpUe--eoIp-nkXdBjeQ/exec";
+const scriptURL="https://script.google.com/macros/s/AKfycbzKfwyt7syBhhEFRr7IBPPgtmgugJDULboAZyIwRlnrW7vUMc8cV-Qvy9EHgxE7Dcgdbw/exec";
 const form=document.getElementById("rsvpForm");
-
 form.addEventListener("submit",e=>{
-
 e.preventDefault();
-
 const formData=new FormData(form);
-
-fetch(scriptURL,{
-method:"POST",
-body:formData
-})
+fetch(scriptURL,{method:"POST",body:formData})
 .then(res=>res.text())
 .then(data=>{
-
-confetti({
-particleCount:120,
-spread:70,
-origin:{y:0.6}
-});
-
+confetti({particleCount:120,spread:70,origin:{y:0.6}});
 alert("🎉 RSVP submitted!");
-
 form.reset();
-
 loadGuestCount();
-
 })
 .catch(err=>alert("Submission failed"));
-
 });
 
-
 /* ---------- GUEST COUNTER ---------- */
-
 function loadGuestCount(){
-
 fetch(scriptURL)
 .then(res=>res.json())
 .then(data=>{
-
 document.getElementById("guestCounter").innerText=
 data.count+" Guests Confirmed 🎉";
-
 })
-.catch(()=>{
-document.getElementById("guestCounter").innerText="Unable to load";
-});
-
+.catch(()=>{document.getElementById("guestCounter").innerText="Unable to load";});
 }
-
 loadGuestCount();
 
-
 /* ---------- COUNTDOWN ---------- */
-
 const eventDate=new Date("December 20, 2026 18:00:00").getTime();
-
 const timer=setInterval(function(){
-
 const now=new Date().getTime();
-
 const distance=eventDate-now;
-
 const days=Math.floor(distance/(1000*60*60*24));
-
-document.getElementById("countdown").innerText=
-days+" days remaining";
-
+document.getElementById("countdown").innerText=days+" days remaining";
 },1000);
 
 </script>
-
 </body>
 </html>
