@@ -20,6 +20,7 @@ height:100vh;
 background-image:url("engagementRing2.png");
 background-size:cover;
 background-position:center;
+background-attachment:fixed;  
 display:flex;
 align-items:center;
 justify-content:center;
@@ -32,6 +33,7 @@ background:rgba(0,0,0,0.45);
 padding:40px;
 border-radius:12px;
 color:white;
+bacgdrop-filter:blur(3px);
 }
 
 .overlay h1{
@@ -216,13 +218,13 @@ transform:translateY(0);
 
 <div class="container reveal">
 
-<h2>RSVP</h2>
+<h2>Join the Celebration</h2>
 
 <form id="rsvpForm">
 
 <input type="text" name="name" placeholder="Your Name" required>
 
-<p>Will you attend?</p>
+<p>Will You Be Joining Us?</p>
 
 <button type="button" class="attendance-btn" data-value="Yes">Yes</button>
 
@@ -243,7 +245,7 @@ transform:translateY(0);
 
 </select>
 
-<button type="submit" id="submitBtn">Confirm RSVP</button>
+<button type="submit" id="submitBtn">Confirm Attendance</button>
 
 </form>
 
@@ -345,7 +347,7 @@ body:new FormData(form)
 
 confetti({particleCount:120,spread:70,origin:{y:0.6}});
 
-document.getElementById("statusMessage").innerText="Your response is recorded";
+document.getElementById("statusMessage").innerText="Thank you! Your response has been recorded.";
 
 form.querySelectorAll("input,select,button").forEach(el=>el.disabled=true);
 
